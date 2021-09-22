@@ -1,34 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   philos_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/21 12:05:33 by bditte            #+#    #+#             */
-/*   Updated: 2021/09/22 11:40:51 by bditte           ###   ########.fr       */
+/*   Created: 2021/09/22 15:07:54 by bditte            #+#    #+#             */
+/*   Updated: 2021/09/22 15:43:14 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	free_philos(t_philo **philos, int nb_philos)
+int	ft_sleep(t_philo *philo, int time)
 {
-	int	i;
-
-	i = 0;
-	while (i < nb_philos)
-		free(philos[i++]);
-	free(philos);
+	while (time / 10 >= 1)
+	{
+		usleep(10 * 1000);
+		time -= 10;
+		if (is_dead(philo))
+			return (1);
+	}
+	usleep((time % 10) * 1000);
 	return (0);
 }
 
-int	free_everything(t_data *data)
+int	is_dead(t_philo *philo)
 {
-	int	i;
+	int	curr_time;
 
-	free_philos(data->philos, data->nb_philos);
-	free(data->threads);
-	i = -1;
+	curr_time = get_time_in_ms();
+	if (curr_time - philo->last_eat > philo->ttdie)
+	{
+		philo->state = DEAD;
+		printf("%d %d died\n", curr_time - philo->starting_time, philo->i);
+		return (1);
+	}
 	return (0);
 }

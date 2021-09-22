@@ -6,21 +6,16 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 09:29:56 by bditte            #+#    #+#             */
-/*   Updated: 2021/09/21 12:08:12 by bditte           ###   ########.fr       */
+/*   Updated: 2021/09/22 15:47:57 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	*ft_thread(void *arg)
-{
-	printf("Hello, I am thread number %d\n", *(int *)arg);
-	return (NULL);
-}
-
 int	main(int ac, char **av)
 {
 	t_data	data;
+
 
 	if (ac < 5 || ac > 6)
 		return (printf("Error: Wrong number of arguments\n"));
@@ -29,6 +24,6 @@ int	main(int ac, char **av)
 	if (manage_philos(&data))
 		return (1);
 	free_everything(&data);
-	system("leaks philo");
+	//system("leaks philo");
 	return (0);
 }

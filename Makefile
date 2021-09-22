@@ -4,6 +4,7 @@ SRC =			main.c 	\
 				parsing.c \
 				manage_philos.c \
 				free.c \
+				philos_utils.c \
 				utils.c 
 
 CC =			gcc
