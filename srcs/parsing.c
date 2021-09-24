@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 11:01:52 by bditte            #+#    #+#             */
-/*   Updated: 2021/09/22 12:00:11 by bditte           ###   ########.fr       */
+/*   Updated: 2021/09/24 16:37:54 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ t_philo	**create_philos(int nb_philos, t_data *data)
 		if (!res[i])
 			return (NULL);
 		res[i]->i = i;
+		res[i]->did_eat = 0;
 		res[i]->last_eat = 0;
 		res[i]->state = -1;
 		res[i]->ttdie = data->ttdie;

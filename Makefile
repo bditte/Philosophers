@@ -5,6 +5,7 @@ SRC =			main.c 	\
 				manage_philos.c \
 				free.c \
 				philos_utils.c \
+				thread.c \
 				utils.c 
 
 CC =			gcc

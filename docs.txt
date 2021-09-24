@@ -3,3 +3,5 @@ https://doc.rust-lang.org/1.2.0/book/dining-philosophers.html
 
 mutex la var qui check si qqun meurt
  Take fork I et (I+1) % nb_philo
+
+make && ./philo 50 400 500 200
