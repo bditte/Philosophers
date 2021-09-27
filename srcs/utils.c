@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 15:36:20 by bditte            #+#    #+#             */
-/*   Updated: 2021/09/22 12:52:53 by bditte           ###   ########.fr       */
+/*   Updated: 2021/09/27 10:10:47 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	ft_isdigit(char c)
 	return (0);
 }
 
-int	get_time_in_ms()
+int	get_time_in_ms(void)
 {
 	struct timeval	curr_time;
 	int				res;

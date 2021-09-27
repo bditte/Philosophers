@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 12:05:33 by bditte            #+#    #+#             */
-/*   Updated: 2021/09/24 16:01:29 by bditte           ###   ########.fr       */
+/*   Updated: 2021/09/27 10:42:06 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,6 @@ int	free_everything(t_data *data)
 {
 	free_philos(data->philos, data->nb_philos);
 	free(data->threads);
+	free(data->forks);
 	return (0);
 }

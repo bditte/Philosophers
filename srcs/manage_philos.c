@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 13:57:10 by bditte            #+#    #+#             */
-/*   Updated: 2021/09/24 16:50:47 by bditte           ###   ########.fr       */
+/*   Updated: 2021/09/27 10:41:32 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 int	check_death(pthread_mutex_t *mutex, int *all_alive)
 {
-	(void)mutex;
 	while (1)
 	{
-
 		pthread_mutex_lock(mutex);
 		if (!(*all_alive))
 		{
@@ -29,58 +27,9 @@ int	check_death(pthread_mutex_t *mutex, int *all_alive)
 	return (0);
 }
 
-int		handle_forks(int i, t_philo *philo, int nb_philo)
-{
-	static int				*forks;
-	int						curr_time;
-	static pthread_mutex_t	lock;
-	if (i == -1)
-	{
-		pthread_mutex_init(&lock, NULL);
-		forks = malloc(sizeof(int) * nb_philo);
-		if (!forks)
-			return (-1);
-		while (++i < nb_philo)
-			forks[i] = 1;
-		return (0);
-	}
-	curr_time = get_time_in_ms() - philo->starting_time;
-	pthread_mutex_lock(&lock);
-	if (forks[i] == 1 && philo->state != EATING && ((philo->nb_eat && philo->did_eat < philo->nb_eat) || !philo->nb_eat))
-	{
-		if (forks[(i + 1) % nb_philo] == 1)
-		{
-			forks[i] = 0;
-			forks[(i + 1) % nb_philo] = 0;
-			printf("%d %d has taken fork %d\n", curr_time, i, i);
-			printf("%d %d has taken fork %d\n", curr_time, i, (i + 1) % nb_philo);
-			printf("%d %d is eating\n", curr_time, i);
-			philo->last_eat = get_time_in_ms();
-			philo->state = EATING;
-		}
-
-	}
-	pthread_mutex_unlock(&lock);
-	if (philo->state == EATING)
-	{
-		pthread_mutex_lock(&lock);
-		if ((get_time_in_ms() - philo->last_eat) >= philo->tteat)
-		{
-			forks[i] = 1;
-			forks[(i + 1) % nb_philo] = 1;
-			printf("%d %d is done eating\n", get_time_in_ms() - philo->starting_time, i);
-			philo->state = DONE_EATING;	
-			pthread_mutex_unlock(&lock);
-			return (0);
-		}
-		pthread_mutex_unlock(&lock);
-	}
-	return (0);
-}
-
 void	*philosopher(void *data)
 {
-	t_philo *philo;
+	t_philo	*philo;
 
 	philo = (t_philo *)data;
 	while (1)
@@ -89,15 +38,17 @@ void	*philosopher(void *data)
 			return (NULL);
 		if (is_dead(philo))
 			return (NULL);
-		handle_forks(philo->i, philo, philo->nb_philos);
+		eat(philo->i, philo, philo->nb_philos, NULL);
 		if (philo->state == DONE_EATING)
 		{
-			printf("%d %d is sleeping\n", get_time_in_ms() - philo->starting_time, philo->i);
+			printf("%d %d is sleeping\n", get_time_in_ms() - \
+				philo->starting_time, philo->i);
 			if (ft_sleep(philo, philo->ttsleep))
 				return (NULL);
 			if (is_dead(philo))
 				return (NULL);
-			printf("%d %d is thinking\n", get_time_in_ms() - philo->starting_time, philo->i);
+			printf("%d %d is thinking\n", get_time_in_ms() - \
+				philo->starting_time, philo->i);
 			philo->state = THINKING;
 		}
 	}
@@ -108,7 +59,7 @@ int	manage_philos(t_data *data)
 {
 	int		i;
 
-	handle_forks(-1, NULL, data->nb_philos);
+	eat(-1, NULL, data->nb_philos, data);
 	data->starting_time = get_time_in_ms();
 	init_threads(data);
 	if (check_death(&data->mutex, data->all_alive))

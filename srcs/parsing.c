@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 11:01:52 by bditte            #+#    #+#             */
-/*   Updated: 2021/09/24 16:37:54 by bditte           ###   ########.fr       */
+/*   Updated: 2021/09/27 10:45:46 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_philo	**create_philos(int nb_philos, t_data *data)
 {
-	t_philo **res;
+	t_philo	**res;
 	int		i;
 
 	res = malloc(sizeof(*res) * (nb_philos + 1));
@@ -47,8 +47,21 @@ pthread_t	*create_threads(int nb)
 	res = malloc(sizeof(pthread_t) * (nb + 1));
 	if (!res)
 		return (NULL);
-	res[nb] = NULL;
+	res[nb] = 0;
 	return (res);
+}
+
+int	create_forks(t_data *data, int nb)
+{
+	int	i;
+
+	i = -1;
+	data->forks = malloc(sizeof(int) * nb);
+	if (!data->forks)
+		return (-1);
+	while (++i < nb)
+		data->forks[i] = 1;
+	return (0);
 }
 
 int	parsing(t_data *data, char **av)
@@ -67,6 +80,7 @@ int	parsing(t_data *data, char **av)
 		if (data->nb_eat < 1)
 			return (printf("Error: Invalid argument.\n"));
 	}
+	create_forks(data, data->nb_philos);
 	data->threads = create_threads(data->nb_philos);
 	if (!data->threads)
 		return (printf("Error: Malloc issue.\n"));

@@ -4,6 +4,7 @@ SRC =			main.c 	\
 				parsing.c \
 				manage_philos.c \
 				free.c \
+				eat.c \
 				philos_utils.c \
 				thread.c \
 				utils.c 

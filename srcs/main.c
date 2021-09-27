@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 09:29:56 by bditte            #+#    #+#             */
-/*   Updated: 2021/09/24 16:06:24 by bditte           ###   ########.fr       */
+/*   Updated: 2021/09/27 10:15:04 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	main(int ac, char **av)
 {
 	t_data	data;
-
 
 	if (ac < 5 || ac > 6)
 		return (printf("Error: Wrong number of arguments\n"));
