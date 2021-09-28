@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 09:30:15 by bditte            #+#    #+#             */
-/*   Updated: 2021/09/28 09:53:01 by bditte           ###   ########.fr       */
+/*   Updated: 2021/09/28 14:04:45 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,5 @@ int		is_dead(t_philo *philo);
 int		ft_sleep(t_philo *philo, int time);
 int		free_everything(t_data *data);
 int		free_philos(t_philo **philos, int nb_philos);
+int		all_ate(t_philo *philo);
 #endif

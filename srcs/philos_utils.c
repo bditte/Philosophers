@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 15:07:54 by bditte            #+#    #+#             */
-/*   Updated: 2021/09/27 10:35:59 by bditte           ###   ########.fr       */
+/*   Updated: 2021/09/28 14:07:14 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,20 @@ int	philo_died(t_philo *philo, int curr_time)
 	*philo->all_alive = 0;
 	pthread_mutex_unlock(philo->lock);
 	philo->state = DEAD;
-	printf("%d %d died\n", curr_time - philo->starting_time, philo->i);
+	printf("%d %d died\n", curr_time - philo->starting_time, philo->i + 1);
 	return (1);
+}
+
+int	all_ate(t_philo *philo)
+{
+	pthread_mutex_lock(philo->lock);
+	if (*philo->all_ate == philo->nb_philos)
+	{
+		pthread_mutex_unlock(philo->lock);
+		return (1);
+	}
+	pthread_mutex_unlock(philo->lock);
+	return (0);
 }
 
 int	is_dead(t_philo *philo)
