@@ -6,18 +6,18 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 13:57:10 by bditte            #+#    #+#             */
-/*   Updated: 2021/09/27 10:41:32 by bditte           ###   ########.fr       */
+/*   Updated: 2021/09/28 10:00:27 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	check_death(pthread_mutex_t *mutex, int *all_alive)
+int	check_death(pthread_mutex_t *mutex, int *all_alive, int *all_ate, int nb)
 {
 	while (1)
 	{
 		pthread_mutex_lock(mutex);
-		if (!(*all_alive))
+		if (!(*all_alive) || *all_ate == nb)
 		{
 			pthread_mutex_unlock(mutex);
 			return (1);
@@ -62,9 +62,10 @@ int	manage_philos(t_data *data)
 	eat(-1, NULL, data->nb_philos, data);
 	data->starting_time = get_time_in_ms();
 	init_threads(data);
-	if (check_death(&data->mutex, data->all_alive))
+	if (check_death(&data->mutex, data->all_alive, data->all_ate, data->nb_philos))
 	{
 		free(data->all_alive);
+		free(data->all_ate);
 		i = -1;
 		while (++i < data->nb_philos)
 			pthread_join(data->threads[i], NULL);

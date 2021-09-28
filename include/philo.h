@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 09:30:15 by bditte            #+#    #+#             */
-/*   Updated: 2021/09/27 10:38:53 by bditte           ###   ########.fr       */
+/*   Updated: 2021/09/28 09:53:01 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_philo
 	int				nb_eat;
 	int				starting_time;
 	int				*all_alive;
+	int				*all_ate;
 	pthread_mutex_t	*lock;
 }				t_philo;
 
@@ -52,6 +53,7 @@ typedef struct s_data
 	int				nb_eat;
 	int				starting_time;
 	int				*all_alive;
+	int				*all_ate;
 	int				*forks;
 	t_philo			**philos;
 	pthread_mutex_t	mutex;
