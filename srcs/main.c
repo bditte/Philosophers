@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 09:29:56 by bditte            #+#    #+#             */
-/*   Updated: 2021/09/28 14:33:55 by bditte           ###   ########.fr       */
+/*   Updated: 2021/09/28 14:40:34 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,5 @@ int	main(int ac, char **av)
 	if (manage_philos(&data))
 		return (1);
 	free_everything(&data);
-	//system("leaks philo");
 	return (0);
 }
