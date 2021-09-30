@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 11:01:52 by bditte            #+#    #+#             */
-/*   Updated: 2021/09/27 10:45:46 by bditte           ###   ########.fr       */
+/*   Updated: 2021/09/30 11:30:34 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,13 @@ t_philo	**create_philos(int nb_philos, t_data *data)
 		res[i]->did_eat = 0;
 		res[i]->last_eat = 0;
 		res[i]->state = -1;
-		res[i]->ttdie = data->ttdie;
-		res[i]->tteat = data->tteat;
-		res[i]->ttsleep = data->ttsleep;
-		res[i]->nb_philos = data->nb_philos;
 		res[i]->nb_eat = data->nb_eat;
+		res[i]->data = data;
+		res[i]->fork_left = i;
+		if (i == nb_philos - 1)
+			res[i]->fork_right = 0;
+		else
+			res[i]->fork_right = i + 1;
 	}
 	return (res);
 }
@@ -51,6 +53,19 @@ pthread_t	*create_threads(int nb)
 	return (res);
 }
 
+int	init_forks(t_data *data)
+{
+	int	i;
+
+	i = -1;
+	data->forks = malloc(sizeof(pthread_mutex_t) * data->nb_philos);
+	if (!data->forks)
+		return (-1);
+	while (++i < data->nb_philos)
+		pthread_mutex_init(&data->forks[i], NULL);
+	return (0);
+}
+/*
 int	create_forks(t_data *data, int nb)
 {
 	int	i;
@@ -63,7 +78,7 @@ int	create_forks(t_data *data, int nb)
 		data->forks[i] = 1;
 	return (0);
 }
-
+*/
 int	parsing(t_data *data, char **av)
 {
 	data->nb_philos = ft_atoi(av[1]);
@@ -80,7 +95,9 @@ int	parsing(t_data *data, char **av)
 		if (data->nb_eat < 1)
 			return (printf("Error: Invalid argument.\n"));
 	}
-	create_forks(data, data->nb_philos);
+	if (init_forks(data))
+		return (printf("Error: Malloc issue.\n"));
+	//create_forks(data, data->nb_philos);
 	data->threads = create_threads(data->nb_philos);
 	if (!data->threads)
 		return (printf("Error: Malloc issue.\n"));

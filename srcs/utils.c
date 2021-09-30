@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 15:36:20 by bditte            #+#    #+#             */
-/*   Updated: 2021/09/27 10:10:47 by bditte           ###   ########.fr       */
+/*   Updated: 2021/09/30 12:02:54 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,16 @@ int	get_time_in_ms(void)
 	res = curr_time.tv_sec * 1000;
 	res += curr_time.tv_usec / 1000;
 	return (res);
+}
+
+int	get_curr_time(int init)
+{
+	static int		start_time;
+
+	if (init)
+	{
+		start_time = get_time_in_ms();
+		return (0);
+	}
+	return (get_time_in_ms() - start_time);
 }

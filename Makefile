@@ -7,6 +7,7 @@ SRC =			main.c 	\
 				eat.c \
 				philos_utils.c \
 				thread.c \
+				display.c \
 				utils.c 
 
 CC =			gcc
