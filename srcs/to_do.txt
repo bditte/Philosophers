@@ -1,0 +1,4 @@
+init mutex
+1 mutex/fork
+monitoring
+correct exit with 1 800 200 2000
