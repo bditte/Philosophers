@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 09:30:15 by bditte            #+#    #+#             */
-/*   Updated: 2021/09/30 12:53:03 by bditte           ###   ########.fr       */
+/*   Updated: 2021/10/01 10:50:35 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # define DEAD 8000
 # define INIT -1
 
-typedef struct s_data t_data;
+typedef struct s_data	t_data;
 
 typedef struct s_philo
 {
@@ -46,7 +46,7 @@ typedef struct s_philo
 	t_data			*data;
 	pthread_mutex_t	*ate_lock;
 	pthread_mutex_t	*alive_lock;
-	pthread_mutex_t	*lock;
+	pthread_mutex_t	lock;
 }				t_philo;
 
 typedef struct s_data
@@ -62,6 +62,8 @@ typedef struct s_data
 	t_philo			**philos;
 	pthread_mutex_t	display_lock;
 	pthread_mutex_t	*forks;
+	pthread_mutex_t	*ate_lock;
+	pthread_mutex_t	*alive_lock;
 	pthread_t		*threads;
 }				t_data;
 

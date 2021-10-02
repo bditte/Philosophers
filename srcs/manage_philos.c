@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 13:57:10 by bditte            #+#    #+#             */
-/*   Updated: 2021/09/30 13:57:02 by bditte           ###   ########.fr       */
+/*   Updated: 2021/10/01 10:43:48 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,34 @@ int	check_death(t_data *data)
 {
 	while (1)
 	{
-		pthread_mutex_lock(data->philos[0]->alive_lock);
-		if (!(*data->all_alive) )//|| *all_ate == nb)
+		pthread_mutex_lock(data->alive_lock);
+		if (!(*data->all_alive))
 		{
-			pthread_mutex_unlock(data->philos[0]->alive_lock);
+			pthread_mutex_unlock(data->alive_lock);
 			return (1);
 		}
-		pthread_mutex_unlock(data->philos[0]->alive_lock);
+		pthread_mutex_unlock(data->alive_lock);
+		pthread_mutex_lock(data->ate_lock);
+		if (data->nb_eat && (*data->all_ate == data->nb_philos))
+		{
+			pthread_mutex_unlock(data->ate_lock);
+			return (1);
+		}
+		pthread_mutex_unlock(data->ate_lock);
 	}
+	return (0);
+}
+
+int	check_eat(t_philo *philo)
+{
+	pthread_mutex_lock(philo->ate_lock);
+	if (philo->data->nb_eat && *philo->all_ate == philo->data->nb_philos)
+	{
+		pthread_mutex_unlock(philo->ate_lock);
+		pthread_mutex_unlock(&philo->lock);
+		return (1);
+	}
+	pthread_mutex_unlock(philo->ate_lock);
 	return (0);
 }
 
@@ -34,13 +54,11 @@ void	*checker(void *data)
 	philo = (t_philo *)data;
 	while (1)
 	{
-		pthread_mutex_lock(philo->lock);
-		//printf("Here at %d\n", get_curr_time(0));
+		pthread_mutex_lock(&philo->lock);
+		if (check_eat(philo))
+			return (NULL);
 		if (philo->state != EATING)
 		{
-			//printf("Here at %d last eat %d\n", get_curr_time(0), philo->last_eat);
-	//		if (philo->state == SLEEPING)
-	//			printf("PHILO %d is sleeping last meal %d\n", philo->i, philo->last_eat);
 			if (get_time_in_ms() - philo->last_eat >= philo->data->ttdie)
 			{
 				display_action(philo, DEAD);
@@ -48,12 +66,12 @@ void	*checker(void *data)
 				*philo->all_alive = 0;
 				philo->state = DEAD;
 				pthread_mutex_unlock(philo->alive_lock);
-				pthread_mutex_unlock(philo->lock);
+				pthread_mutex_unlock(&philo->lock);
 				return (NULL);
 			}
 		}
-		pthread_mutex_unlock(philo->lock);
-		usleep(1000);
+		pthread_mutex_unlock(&philo->lock);
+		usleep(10);
 	}
 }
 
@@ -63,17 +81,15 @@ void	*philosopher(void *data)
 	pthread_t	thread;
 
 	pthread_create(&thread, NULL, checker, data);
-	//pthread_detach(thread);
+	pthread_detach(thread);
 	philo = (t_philo *)data;
 	while (1)
 	{
-		if (is_dead(philo)) //check all ate
+		if (is_dead(philo) || all_ate(philo))
 			return (NULL);
 		eat(philo);
 		display_action(philo, SLEEPING);
 		usleep(philo->data->ttsleep * 1000);
-		/*if (ft_sleep(philo, philo->data->ttsleep))
-			return (NULL);*/
 		display_action(philo, THINKING);
 		philo->state = THINKING;
 	}
@@ -84,7 +100,6 @@ int	manage_philos(t_data *data)
 {
 	int		i;
 
-	//eat(-1, NULL, data->nb_philos, data);
 	get_curr_time(1);
 	display_action(NULL, INIT);
 	pthread_mutex_init(&data->display_lock, NULL);
@@ -101,6 +116,5 @@ int	manage_philos(t_data *data)
 			pthread_join(data->threads[i], NULL);
 		}
 	}
-	
 	return (0);
 }

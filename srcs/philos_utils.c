@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 15:07:54 by bditte            #+#    #+#             */
-/*   Updated: 2021/09/30 13:33:54 by bditte           ###   ########.fr       */
+/*   Updated: 2021/10/01 10:50:00 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,8 @@ int	ft_sleep(t_philo *philo, int time)
 	{
 		usleep(10000);
 		i += 10000;
-		/*if (is_dead(philo))
-			return (1);*/
 	}
 	usleep(time - i);
-	/*if (is_dead(philo))
-		return (1);*/
 	return (0);
 }
 

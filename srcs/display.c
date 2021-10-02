@@ -6,13 +6,13 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 09:43:14 by bditte            #+#    #+#             */
-/*   Updated: 2021/09/30 10:29:16 by bditte           ###   ########.fr       */
+/*   Updated: 2021/10/01 10:38:12 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-const char *get_message(int type)
+const char	*get_message(int type)
 {
 	if (type == EATING)
 		return ("is eating");

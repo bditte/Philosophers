@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 15:43:25 by bditte            #+#    #+#             */
-/*   Updated: 2021/09/30 13:33:12 by bditte           ###   ########.fr       */
+/*   Updated: 2021/10/01 10:50:14 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int	init_mutexs(t_data *data)
 	*data->all_alive = 1;
 	data->all_ate = malloc(sizeof(int));
 	*data->all_ate = 0;
+	data->ate_lock = &ate_lock;
+	data->alive_lock = &alive_lock;
 	i = -1;
 	while (++i < data->nb_philos)
 	{
@@ -31,8 +33,7 @@ int	init_mutexs(t_data *data)
 		data->philos[i]->ate_lock = &ate_lock;
 		data->philos[i]->all_alive = data->all_alive;
 		data->philos[i]->all_ate = data->all_ate;
-		data->philos[i]->lock = malloc(sizeof(pthread_mutex_t));
-		pthread_mutex_init(data->philos[i]->lock, NULL);
+		pthread_mutex_init(&data->philos[i]->lock, NULL);
 		data->philos[i]->last_eat = data->starting_time;
 		data->philos[i]->starting_time = data->starting_time;
 	}
@@ -50,7 +51,6 @@ int	init_threads(t_data *data)
 	{
 		ret = pthread_create(&data->threads[i], NULL, \
 			philosopher, (void *)data->philos[i]);
-		//pthread_detach(data->threads[i]);
 		if (ret)
 			printf("thread error\n");
 		usleep(100);

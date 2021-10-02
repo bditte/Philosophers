@@ -6,11 +6,24 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 11:01:52 by bditte            #+#    #+#             */
-/*   Updated: 2021/09/30 11:30:34 by bditte           ###   ########.fr       */
+/*   Updated: 2021/10/01 10:47:59 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	init_philo_vars(t_philo *philo, int i, int nb_philos)
+{
+	philo->i = i;
+	philo->did_eat = 0;
+	philo->last_eat = 0;
+	philo->state = -1;
+	philo->fork_left = i;
+	if (i == nb_philos - 1)
+		philo->fork_right = 0;
+	else
+		philo->fork_right = i + 1;
+}
 
 t_philo	**create_philos(int nb_philos, t_data *data)
 {
@@ -27,17 +40,9 @@ t_philo	**create_philos(int nb_philos, t_data *data)
 		res[i] = malloc(sizeof(t_philo));
 		if (!res[i])
 			return (NULL);
-		res[i]->i = i;
-		res[i]->did_eat = 0;
-		res[i]->last_eat = 0;
-		res[i]->state = -1;
+		init_philo_vars(res[i], i, nb_philos);
 		res[i]->nb_eat = data->nb_eat;
 		res[i]->data = data;
-		res[i]->fork_left = i;
-		if (i == nb_philos - 1)
-			res[i]->fork_right = 0;
-		else
-			res[i]->fork_right = i + 1;
 	}
 	return (res);
 }
@@ -65,20 +70,7 @@ int	init_forks(t_data *data)
 		pthread_mutex_init(&data->forks[i], NULL);
 	return (0);
 }
-/*
-int	create_forks(t_data *data, int nb)
-{
-	int	i;
 
-	i = -1;
-	data->forks = malloc(sizeof(int) * nb);
-	if (!data->forks)
-		return (-1);
-	while (++i < nb)
-		data->forks[i] = 1;
-	return (0);
-}
-*/
 int	parsing(t_data *data, char **av)
 {
 	data->nb_philos = ft_atoi(av[1]);
@@ -97,7 +89,6 @@ int	parsing(t_data *data, char **av)
 	}
 	if (init_forks(data))
 		return (printf("Error: Malloc issue.\n"));
-	//create_forks(data, data->nb_philos);
 	data->threads = create_threads(data->nb_philos);
 	if (!data->threads)
 		return (printf("Error: Malloc issue.\n"));
