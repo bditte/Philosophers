@@ -6,25 +6,37 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 15:43:25 by bditte            #+#    #+#             */
-/*   Updated: 2021/10/01 10:50:14 by bditte           ###   ########.fr       */
+/*   Updated: 2021/10/02 10:44:21 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	init_mutexs(t_data *data)
+int	malloc_pointers(t_data *data)
 {
-	int				i;
-	//pthread_mutex_t	ate_lock;
-	//pthread_mutex_t	alive_lock;
-
-	
 	data->all_alive = malloc(sizeof(int));
+	if (!data->all_alive)
+		return (ft_print_error("Malloc issue.\n"));
 	*data->all_alive = 1;
 	data->all_ate = malloc(sizeof(int));
+	if (!data->all_ate)
+		return (ft_print_error("Malloc issue.\n"));
 	*data->all_ate = 0;
 	data->ate_lock = malloc(sizeof(pthread_mutex_t));
+	if (!data->ate_lock)
+		return (ft_print_error("Malloc issue.\n"));
 	data->alive_lock = malloc(sizeof(pthread_mutex_t));
+	if (!data->alive_lock)
+		return (ft_print_error("Malloc issue.\n"));
+	return (0);
+}
+
+int	init_mutexs(t_data *data)
+{
+	int	i;
+
+	if (malloc_pointers(data))
+		return (1);
 	pthread_mutex_init(data->ate_lock, NULL);
 	pthread_mutex_init(data->alive_lock, NULL);
 	i = -1;
@@ -46,14 +58,15 @@ int	init_threads(t_data *data)
 	int	i;
 	int	ret;
 
-	init_mutexs(data);
+	if (init_mutexs(data))
+		return (1);
 	i = -1;
 	while (++i < data->nb_philos)
 	{
 		ret = pthread_create(&data->threads[i], NULL, \
 			philosopher, (void *)data->philos[i]);
 		if (ret)
-			printf("thread error\n");
+			return (ft_print_error("Thread issue.\n"));
 		usleep(100);
 	}
 	return (0);

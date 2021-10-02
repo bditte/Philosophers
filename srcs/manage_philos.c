@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 13:57:10 by bditte            #+#    #+#             */
-/*   Updated: 2021/10/01 10:43:48 by bditte           ###   ########.fr       */
+/*   Updated: 2021/10/02 10:43:16 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,12 @@ void	*philosopher(void *data)
 	{
 		if (is_dead(philo) || all_ate(philo))
 			return (NULL);
-		eat(philo);
-		display_action(philo, SLEEPING);
-		usleep(philo->data->ttsleep * 1000);
-		display_action(philo, THINKING);
-		philo->state = THINKING;
+		if (eat(philo))
+		{
+			usleep(philo->data->ttsleep * 1000);
+			display_action(philo, THINKING);
+			philo->state = THINKING;
+		}
 	}
 	return (data);
 }
@@ -104,7 +105,8 @@ int	manage_philos(t_data *data)
 	display_action(NULL, INIT);
 	pthread_mutex_init(&data->display_lock, NULL);
 	data->starting_time = get_time_in_ms();
-	init_threads(data);
+	if (init_threads(data))
+		return (1);
 	if (check_death(data))
 	{
 		i = -1;

@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 11:01:52 by bditte            #+#    #+#             */
-/*   Updated: 2021/10/01 10:47:59 by bditte           ###   ########.fr       */
+/*   Updated: 2021/10/02 10:48:57 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,20 +80,20 @@ int	parsing(t_data *data, char **av)
 	data->nb_eat = 0;
 	if (data->nb_philos < 1 || data->ttdie < 1 || \
 		data->tteat < 1 || data->ttsleep < 1)
-		return (printf("Error: Invalid argument.\n"));
+		return (ft_print_error("Error: Invalid argument.\n"));
 	if (av[5])
 	{
 		data->nb_eat = ft_atoi(av[5]);
 		if (data->nb_eat < 1)
-			return (printf("Error: Invalid argument.\n"));
+			return (ft_print_error("Error: Invalid argument.\n"));
 	}
 	if (init_forks(data))
-		return (printf("Error: Malloc issue.\n"));
+		return (ft_print_error("Error: Malloc issue.\n"));
 	data->threads = create_threads(data->nb_philos);
 	if (!data->threads)
-		return (printf("Error: Malloc issue.\n"));
+		return (ft_print_error("Error: Malloc issue.\n"));
 	data->philos = create_philos(data->nb_philos, data);
 	if (!data->philos)
-		return (printf("Error: Malloc issue.\n"));
+		return (ft_print_error("Error: Malloc issue.\n"));
 	return (0);
 }

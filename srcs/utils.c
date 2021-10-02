@@ -6,11 +6,22 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 15:36:20 by bditte            #+#    #+#             */
-/*   Updated: 2021/09/30 12:02:54 by bditte           ###   ########.fr       */
+/*   Updated: 2021/10/02 10:41:07 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	ft_print_error(const char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	write (STDERR_FILENO, str, i);
+	return (1);
+}
 
 int	ft_atoi(const char *str)
 {
