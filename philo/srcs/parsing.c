@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 11:01:52 by bditte            #+#    #+#             */
-/*   Updated: 2021/10/02 17:46:42 by bditte           ###   ########.fr       */
+/*   Updated: 2021/10/02 18:09:19 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,16 @@ t_philo	**create_philos(int nb_philos, t_data *data)
 pthread_t	*create_threads(int nb)
 {
 	pthread_t	*res;
+//	int			i;
 
 	res = malloc(sizeof(pthread_t) * (nb + 1));
 	if (!res)
 		return (NULL);
+	/*i = -1;
+	while (++i < nb)
+	{
+		res[i] = -1;
+	}*/
 	res[nb] = 0;
 	return (res);
 }

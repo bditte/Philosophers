@@ -3,31 +3,63 @@
 /*                                                        :::      ::::::::   */
 /*   thread.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 15:43:25 by bditte            #+#    #+#             */
-/*   Updated: 2021/10/02 10:44:21 by bditte           ###   ########.fr       */
+/*   Updated: 2021/10/02 18:21:27 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+void	free_tabs(t_data *data)
+{
+	free_philos(data->philos, data->nb_philos);
+	free(data->threads);
+	free(data->forks);
+}
+
+int	malloc_pointers_next(t_data *data)
+{
+	data->ate_lock = malloc(sizeof(pthread_mutex_t));
+	if (!data->ate_lock)
+	{
+		free(data->all_ate);
+		free(data->all_alive);
+		free_tabs(data);
+		return (ft_print_error("Malloc issue.\n"));
+	}
+	data->alive_lock = malloc(sizeof(pthread_mutex_t));
+	if (!data->alive_lock)
+	{
+		free(data->ate_lock);
+		free(data->all_ate);
+		free(data->all_alive);
+		free_tabs(data);
+		return (ft_print_error("Malloc issue.\n"));
+	}
+	return (0);
+}
+
 int	malloc_pointers(t_data *data)
 {
 	data->all_alive = malloc(sizeof(int));
 	if (!data->all_alive)
+	{
+		free_tabs(data);
 		return (ft_print_error("Malloc issue.\n"));
+	}
 	*data->all_alive = 1;
 	data->all_ate = malloc(sizeof(int));
 	if (!data->all_ate)
+	{
+		free(data->all_alive);
+		free_tabs(data);
 		return (ft_print_error("Malloc issue.\n"));
+	}
 	*data->all_ate = 0;
-	data->ate_lock = malloc(sizeof(pthread_mutex_t));
-	if (!data->ate_lock)
-		return (ft_print_error("Malloc issue.\n"));
-	data->alive_lock = malloc(sizeof(pthread_mutex_t));
-	if (!data->alive_lock)
-		return (ft_print_error("Malloc issue.\n"));
+	if (malloc_pointers_next(data))
+		return (1);
 	return (0);
 }
 
@@ -66,7 +98,18 @@ int	init_threads(t_data *data)
 		ret = pthread_create(&data->threads[i], NULL, \
 			philosopher, (void *)data->philos[i]);
 		if (ret)
+		{
+			/*
+			printf("HERE\n");
+			ret = 0;
+			while (ret <= i)
+			{
+				pthread_join(data->threads[ret], NULL);
+				ret++;
+			}*/
+			free_everything(data);
 			return (ft_print_error("Thread issue.\n"));
+		}
 		usleep(100);
 	}
 	return (0);

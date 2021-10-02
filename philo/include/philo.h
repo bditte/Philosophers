@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 09:30:15 by bditte            #+#    #+#             */
-/*   Updated: 2021/10/02 10:39:20 by bditte           ###   ########.fr       */
+/*   Updated: 2021/10/02 18:15:10 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int		manage_philos(t_data *data);
 void	*philosopher(void *data);
 int		init_threads(t_data *data);
 int		eat(t_philo *philo);
-
+int		free_philos(t_philo **philos, int nb_philos);
 /*
 ** UTILS
 */
