@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 11:01:52 by bditte            #+#    #+#             */
-/*   Updated: 2021/10/02 10:48:57 by bditte           ###   ########.fr       */
+/*   Updated: 2021/10/02 17:46:42 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,16 @@ int	parsing(t_data *data, char **av)
 		return (ft_print_error("Error: Malloc issue.\n"));
 	data->threads = create_threads(data->nb_philos);
 	if (!data->threads)
+	{
+		free(data->forks);
 		return (ft_print_error("Error: Malloc issue.\n"));
+	}
 	data->philos = create_philos(data->nb_philos, data);
 	if (!data->philos)
+	{
+		free(data->forks);
+		free(data->threads);
 		return (ft_print_error("Error: Malloc issue.\n"));
+	}
 	return (0);
 }
