@@ -15,22 +15,23 @@
 int	init_mutexs(t_data *data)
 {
 	int				i;
-	pthread_mutex_t	ate_lock;
-	pthread_mutex_t	alive_lock;
+	//pthread_mutex_t	ate_lock;
+	//pthread_mutex_t	alive_lock;
 
-	pthread_mutex_init(&ate_lock, NULL);
-	pthread_mutex_init(&alive_lock, NULL);
+	
 	data->all_alive = malloc(sizeof(int));
 	*data->all_alive = 1;
 	data->all_ate = malloc(sizeof(int));
 	*data->all_ate = 0;
-	data->ate_lock = &ate_lock;
-	data->alive_lock = &alive_lock;
+	data->ate_lock = malloc(sizeof(pthread_mutex_t));
+	data->alive_lock = malloc(sizeof(pthread_mutex_t));
+	pthread_mutex_init(data->ate_lock, NULL);
+	pthread_mutex_init(data->alive_lock, NULL);
 	i = -1;
 	while (++i < data->nb_philos)
 	{
-		data->philos[i]->alive_lock = &alive_lock;
-		data->philos[i]->ate_lock = &ate_lock;
+		data->philos[i]->alive_lock = data->alive_lock;
+		data->philos[i]->ate_lock = data->ate_lock;
 		data->philos[i]->all_alive = data->all_alive;
 		data->philos[i]->all_ate = data->all_ate;
 		pthread_mutex_init(&data->philos[i]->lock, NULL);

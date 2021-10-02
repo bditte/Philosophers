@@ -107,8 +107,6 @@ int	manage_philos(t_data *data)
 	init_threads(data);
 	if (check_death(data))
 	{
-		free(data->all_alive);
-		free(data->all_ate);
 		i = -1;
 		while (++i < data->nb_philos)
 		{

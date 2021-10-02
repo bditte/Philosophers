@@ -26,6 +26,10 @@ int	free_philos(t_philo **philos, int nb_philos)
 int	free_everything(t_data *data)
 {
 	free_philos(data->philos, data->nb_philos);
+	free(data->all_alive);
+	free(data->all_ate);
+	free(data->ate_lock);
+	free(data->alive_lock);
 	free(data->threads);
 	free(data->forks);
 	return (0);

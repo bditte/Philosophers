@@ -34,7 +34,7 @@ LIBS = 	-L$(DIR_LIBFT) -lft
 all:			$(NAME) $(BONUS)
 
 $(NAME) :		$(OBJS)
-			gcc  $(HEADERS) $(OBJS) -o $(NAME)
+			gcc  $(HEADERS) $(OBJS) -o $(NAME) -lpthread
 
 %.o: %.c
 				@$(CC) $(FLAGS) $(HEADERS) -c $< -o $@
