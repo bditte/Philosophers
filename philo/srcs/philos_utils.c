@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 15:07:54 by bditte            #+#    #+#             */
-/*   Updated: 2021/10/01 10:50:00 by bditte           ###   ########.fr       */
+/*   Updated: 2021/10/03 18:00:46 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ft_sleep(t_philo *philo, int time)
 	usleep(time - i);
 	return (0);
 }
-
+/*
 int	philo_died(t_philo *philo)
 {
 	pthread_mutex_lock(philo->alive_lock);
@@ -41,7 +41,7 @@ int	philo_died(t_philo *philo)
 	philo->state = DEAD;
 	display_action(philo, DEAD);
 	return (1);
-}
+}*/
 
 int	all_ate(t_philo *philo)
 {
@@ -57,7 +57,7 @@ int	all_ate(t_philo *philo)
 
 int	is_dead(t_philo *philo)
 {
-	int	curr_time;
+	//int	curr_time;
 
 	pthread_mutex_lock(philo->alive_lock);
 	if (!(*philo->all_alive))
@@ -68,8 +68,8 @@ int	is_dead(t_philo *philo)
 	pthread_mutex_unlock(philo->alive_lock);
 	if (philo->state == EATING)
 		return (0);
-	curr_time = get_time_in_ms();
+/*	curr_time = get_time_in_ms();
 	if (curr_time - philo->last_eat > philo->data->ttdie)
-		return (philo_died(philo));
+		return (philo_died(philo));*/
 	return (0);
 }

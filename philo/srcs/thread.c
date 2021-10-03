@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   thread.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 15:43:25 by bditte            #+#    #+#             */
-/*   Updated: 2021/10/02 18:21:27 by user42           ###   ########.fr       */
+/*   Updated: 2021/10/03 18:02:27 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,14 +99,15 @@ int	init_threads(t_data *data)
 			philosopher, (void *)data->philos[i]);
 		if (ret)
 		{
-			/*
-			printf("HERE\n");
+			pthread_mutex_lock(data->alive_lock);
+			*data->all_alive = 0;
+			pthread_mutex_unlock(data->alive_lock);
 			ret = 0;
 			while (ret <= i)
 			{
 				pthread_join(data->threads[ret], NULL);
 				ret++;
-			}*/
+			}
 			free_everything(data);
 			return (ft_print_error("Thread issue.\n"));
 		}

@@ -6,11 +6,42 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 09:43:14 by bditte            #+#    #+#             */
-/*   Updated: 2021/10/01 10:38:12 by bditte           ###   ########.fr       */
+/*   Updated: 2021/10/03 18:01:01 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	ft_putstr(const char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	write(STDOUT_FILENO, s, i);
+	return (0);
+}
+
+void	ft_putnbr(int n)
+{
+	char	c;
+
+	if (n < 0)
+	{
+		write(STDOUT_FILENO, "-", 1);
+		if (n == -2147483648)
+		{
+			write(STDOUT_FILENO, "2", 1);
+			n = -147483648;
+		}
+		n *= -1;
+	}
+	if (n > 9)
+		ft_putnbr(n / 10);
+	c = n % 10 + '0';
+	write(STDOUT_FILENO, &c, 1);
+}
 
 const char	*get_message(int type)
 {
@@ -25,7 +56,7 @@ const char	*get_message(int type)
 	return ("has taken a fork");
 }
 
-int	display_action(t_philo *philo, int type)
+int	display_action(int i, int type, pthread_mutex_t *lock)
 {
 	static int	displayed;
 
@@ -34,13 +65,18 @@ int	display_action(t_philo *philo, int type)
 		displayed = 0;
 		return (0);
 	}
-	pthread_mutex_lock(&philo->data->display_lock);
+	pthread_mutex_lock(lock);
 	if (!displayed)
 	{
 		if (type == DEAD)
 			displayed = 1;
-		printf("%d %d %s\n", get_curr_time(0), philo->i + 1, get_message(type));
+		ft_putnbr(get_curr_time(0));
+		write(STDOUT_FILENO, " ", 1);
+		ft_putnbr(i + 1);
+		write(STDOUT_FILENO, " ", 1);
+		ft_putstr(get_message(type));
+		write(STDOUT_FILENO, "\n", 1);
 	}
-	pthread_mutex_unlock(&philo->data->display_lock);
+	pthread_mutex_unlock(lock);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 09:30:15 by bditte            #+#    #+#             */
-/*   Updated: 2021/10/02 18:15:10 by user42           ###   ########.fr       */
+/*   Updated: 2021/10/03 17:54:12 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,6 @@ int		free_everything(t_data *data);
 int		free_philos(t_philo **philos, int nb_philos);
 int		all_ate(t_philo *philo);
 int		get_curr_time(int init);
-int		display_action(t_philo *philo, int type);
+int		display_action(int i, int type, pthread_mutex_t *lock);
 int		ft_print_error(const char *str);
 #endif
