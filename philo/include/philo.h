@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 09:30:15 by bditte            #+#    #+#             */
-/*   Updated: 2021/10/03 17:54:12 by bditte           ###   ########.fr       */
+/*   Updated: 2021/10/04 10:35:30 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int		ft_atoi(const char *str);
 int		ft_isdigit(char c);
 int		get_time_in_ms(void);
 int		is_dead(t_philo *philo);
-int		ft_sleep(t_philo *philo, int time);
+int		ft_sleep(int time);
 int		free_everything(t_data *data);
 int		free_philos(t_philo **philos, int nb_philos);
 int		all_ate(t_philo *philo);

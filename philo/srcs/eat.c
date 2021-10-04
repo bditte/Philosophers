@@ -6,7 +6,7 @@
 /*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 16:39:44 by bditte            #+#    #+#             */
-/*   Updated: 2021/10/03 18:05:24 by bditte           ###   ########.fr       */
+/*   Updated: 2021/10/04 10:45:55 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	eat(t_philo *philo)
 	philo->last_eat = get_time_in_ms();
 	pthread_mutex_unlock(&philo->lock);
 	philo->state = EATING;
-	usleep(philo->data->tteat * 1000);
+	ft_sleep(philo->data->tteat);
 	drop_forks(philo);
 	display_action(philo->i, SLEEPING, &philo->data->display_lock);
 	philo->state = SLEEPING;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bditte <bditte@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 11:01:52 by bditte            #+#    #+#             */
-/*   Updated: 2021/10/02 18:09:19 by user42           ###   ########.fr       */
+/*   Updated: 2021/10/04 09:46:47 by bditte           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,21 +47,23 @@ t_philo	**create_philos(int nb_philos, t_data *data)
 	return (res);
 }
 
-pthread_t	*create_threads(int nb)
+int	parse_next(t_data *data)
 {
-	pthread_t	*res;
-//	int			i;
-
-	res = malloc(sizeof(pthread_t) * (nb + 1));
-	if (!res)
-		return (NULL);
-	/*i = -1;
-	while (++i < nb)
+	data->threads = malloc(sizeof(pthread_t) * (data->nb_philos + 1));
+	if (!data->threads)
 	{
-		res[i] = -1;
-	}*/
-	res[nb] = 0;
-	return (res);
+		free(data->forks);
+		return (ft_print_error("Error: Malloc issue.\n"));
+	}
+	data->threads[data->nb_philos] = 0;
+	data->philos = create_philos(data->nb_philos, data);
+	if (!data->philos)
+	{
+		free(data->forks);
+		free(data->threads);
+		return (ft_print_error("Error: Malloc issue.\n"));
+	}
+	return (0);
 }
 
 int	init_forks(t_data *data)
@@ -95,18 +97,5 @@ int	parsing(t_data *data, char **av)
 	}
 	if (init_forks(data))
 		return (ft_print_error("Error: Malloc issue.\n"));
-	data->threads = create_threads(data->nb_philos);
-	if (!data->threads)
-	{
-		free(data->forks);
-		return (ft_print_error("Error: Malloc issue.\n"));
-	}
-	data->philos = create_philos(data->nb_philos, data);
-	if (!data->philos)
-	{
-		free(data->forks);
-		free(data->threads);
-		return (ft_print_error("Error: Malloc issue.\n"));
-	}
-	return (0);
+	return (parse_next(data));
 }
