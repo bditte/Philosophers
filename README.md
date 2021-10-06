@@ -34,7 +34,7 @@ Example : `./philo 5 800 200 300 2`
 
 `2` : Number of times each philosopher must eat (optional)
 
-####Output
+#### Output
 
 ![Output](https://i.imgur.com/YPppyqY.png)
 
@@ -42,7 +42,7 @@ Each philosopher ate 2 times.
 
 `./philo  1 800 200 200`
 
-####Output
+#### Output
 
 ![Output](https://i.imgur.com/L6Etg1X.png)
 
